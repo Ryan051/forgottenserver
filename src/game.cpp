@@ -131,9 +131,6 @@ void Game::setGameState(GameState_t newState)
 
 			map.spawns.startup();
 
-			raids.loadFromXml();
-			raids.startup();
-
 			quests.loadFromXml();
 			mounts.loadFromXml();
 
@@ -4385,7 +4382,6 @@ void Game::shutdown()
 	g_databaseTasks.shutdown();
 	g_dispatcher.shutdown();
 	map.spawns.clear();
-	raids.clear();
 
 	cleanup();
 
