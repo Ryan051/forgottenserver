@@ -58,6 +58,7 @@ extern Chat* g_chat;
 extern TalkActions* g_talkActions;
 extern Spells* g_spells;
 extern Vocations g_vocations;
+extern CreatureEvents* g_creatureEvents;
 extern GlobalEvents* g_globalEvents;
 extern Events* g_events;
 
@@ -3248,6 +3249,10 @@ void Game::playerSay(uint32_t playerId, uint16_t channelId, SpeakClasses type,
 	}
 
 	if (playerSaySpell(player, type, text)) {
+		return;
+	}
+
+	if (!g_creatureEvents->playerSay(player, text)) {
 		return;
 	}
 
