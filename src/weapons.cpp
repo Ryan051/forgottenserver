@@ -324,6 +324,10 @@ int32_t Weapon::playerWeaponCheck(Player* player, Creature* target, uint8_t shoo
 		}
 
 		int32_t damageModifier = 100;
+		if (player->isDualWielding()) {
+			damageModifier = g_config.getNumber(ConfigManager::DUAL_WIELDING_DAMAGE_RATE);
+		}
+
 		if (auto chance = g_config.getNumber(ConfigManager::CRITICAL_HIT_CHANCE)) {
 			if (boolean_random(static_cast<double>(chance) / 100.0)) {
 				damageModifier += g_config.getNumber(ConfigManager::CRITICAL_HIT_EXTRA);
@@ -431,9 +435,20 @@ void Weapon::onUsedWeapon(Player* player, Item* item, Tile* destTile) const
 		skills_t skillType;
 		uint32_t skillPoint;
 		if (getSkillType(player, item, skillType, skillPoint)) {
-			player->addSkillAdvance(skillType, skillPoint);
+			/* Advance one point for every single-wielding hit OR one point for every two hit for each hand */
+			if (!player->isDualWielding() || !player->getBlockSkillAdvance()) {
+				player->addSkillAdvance(skillType, skillPoint);
+			}
+
+			/* For every dual-wielding turn (one hit for each hand), flip the block skill bit */
+			if (player->getAttackHand() == CONST_SLOT_LEFT) {
+				player->switchBlockSkillAdvance();
+			}
 		}
 	}
+
+	/* There's not even the need to check if player is dual wielding: the variable is ignored otherwise. */
+	player->switchAttackHand();
 
 	uint32_t manaCost = getManaCost(player);
 	if (manaCost != 0) {
