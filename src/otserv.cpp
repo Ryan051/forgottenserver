@@ -19,11 +19,11 @@
 
 #include "otpch.h"
 
-#include "server.h"
+#include <sodium.h>
 
 #include "game.h"
-
 #include "iomarket.h"
+#include "server.h"
 
 #ifndef _WIN32
 #include <csignal> // for sigemptyset()
@@ -148,6 +148,13 @@ void mainLoader(int, char*[], ServiceManager* services)
 	std::cout << "A server developed by " << STATUS_SERVER_DEVELOPERS << std::endl;
 	std::cout << "Visit our forum for updates, support, and resources: http://otland.net/." << std::endl;
 	std::cout << std::endl;
+
+	// initialize sodium library
+	std::cout << ">> Initializing cryptography..." << std::endl;
+	if (sodium_init() != 0) {
+		startupErrorMessage("Unable to initialize cryptography!");
+		return;
+	}
 
 	// read global config
 	std::cout << ">> Loading config" << std::endl;

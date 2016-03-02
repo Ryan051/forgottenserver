@@ -63,7 +63,7 @@ bool IOLoginData::loginserverAuthentication(const std::string& name, const std::
 		return false;
 	}
 
-	if (transformToSHA1(password) != result->getString("password")) {
+	if (!passwordVerify(result->getString("password"), password)) {
 		return false;
 	}
 
@@ -98,7 +98,7 @@ uint32_t IOLoginData::gameworldAuthentication(const std::string& accountName, co
 		return 0;
 	}
 
-	if (transformToSHA1(password) != result->getString("password")) {
+	if (!passwordVerify(result->getString("password"), password)) {
 		return 0;
 	}
 
