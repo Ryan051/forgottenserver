@@ -7,16 +7,8 @@ compiler:
 env:
   - LUAJIT=OFF
   - LUAJIT=ON
-cache: apt
-addons:
-  apt:
-    packages:
-      - libboost-dev
-      - libboost-system-dev
-      - liblua5.2-dev
-      - libluajit-5.1-dev
-      - libmysqlclient-dev
-      - libpugixml-dev
+before_install: sudo add-apt-repository ppa:chris-lea/libsodium -y
+install: sudo apt-get update -qq && sudo apt-get install libboost-dev libboost-system-dev liblua5.2-dev libluajit-5.1-dev libmysqlclient-dev libpugixml-dev libsodium-dev -qq
 before_script:
   - mkdir build && cd build
   - cmake -DCMAKE_BUILD_TYPE=Release -DUSE_LUAJIT=${LUAJIT} ..
