@@ -32,5 +32,6 @@ function onLogin(player)
 	-- Events
 	player:registerEvent("PlayerDeath")
 	player:registerEvent("DropLoot")
+	math.saferandom(0, 10)
 	return true
 end

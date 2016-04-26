@@ -35,6 +35,7 @@
 #include "monster.h"
 #include "scheduler.h"
 #include "databasetasks.h"
+#include "tools.h"
 
 extern Chat* g_chat;
 extern Game g_game;
@@ -1788,6 +1789,9 @@ void LuaScriptInterface::registerFunctions()
 	registerEnumIn("configKeys", ConfigManager::MAX_MARKET_OFFERS_AT_A_TIME_PER_PLAYER)
 	registerEnumIn("configKeys", ConfigManager::EXP_FROM_PLAYERS_LEVEL_RANGE)
 	registerEnumIn("configKeys", ConfigManager::MAX_PACKETS_PER_SECOND)
+
+	// math
+	registerMethod("math", "saferandom", LuaScriptInterface::luaSafeRandom);
 
 	// os
 	registerMethod("os", "mtime", LuaScriptInterface::luaSystemTime);
@@ -4068,6 +4072,14 @@ int LuaScriptInterface::luaRawGetMetatable(lua_State* L)
 {
 	// rawgetmetatable(metatableName)
 	luaL_getmetatable(L, getString(L, 1).c_str());
+	return 1;
+}
+
+// math
+int LuaScriptInterface::luaSafeRandom(lua_State* L)
+{
+	// math.saferandom(minNumber, maxNumber)
+	lua_pushnumber(L, uniform_random(getNumber<int32_t>(L, 1), getNumber<int32_t>(L, 2)));
 	return 1;
 }
 

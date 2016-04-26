@@ -521,6 +521,9 @@ class LuaScriptInterface
 		static int luaIsType(lua_State* L);
 		static int luaRawGetMetatable(lua_State* L);
 
+		// math
+		static int luaSafeRandom(lua_State* L);
+
 		// os
 		static int luaSystemTime(lua_State* L);
 
