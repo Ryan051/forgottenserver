@@ -48,6 +48,9 @@ inline bool hasBitSet(uint32_t flag, uint32_t flags) {
 }
 
 std::mt19937& getRandomGenerator();
+
+using safe_random_engine = std::shuffle_order_engine<std::minstd_rand, 256>;
+safe_random_engine& getSafeRandomGenerator();
 int32_t uniform_random(int32_t minNumber, int32_t maxNumber);
 int32_t normal_random(int32_t minNumber, int32_t maxNumber);
 bool boolean_random(double probability = 0.5);

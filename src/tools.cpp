@@ -303,6 +303,13 @@ std::mt19937& getRandomGenerator()
 	return generator;
 }
 
+safe_random_engine& getSafeRandomGenerator()
+{
+	static std::random_device rd;
+	static safe_random_engine generator(rd());
+	return generator;
+}
+
 int32_t uniform_random(int32_t minNumber, int32_t maxNumber)
 {
 	static std::uniform_int_distribution<int32_t> uniformRand;

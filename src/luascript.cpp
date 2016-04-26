@@ -4079,7 +4079,17 @@ int LuaScriptInterface::luaRawGetMetatable(lua_State* L)
 int LuaScriptInterface::luaSafeRandom(lua_State* L)
 {
 	// math.saferandom(minNumber, maxNumber)
-	lua_pushnumber(L, uniform_random(getNumber<int32_t>(L, 1), getNumber<int32_t>(L, 2)));
+	static std::uniform_real_distribution<double> uniformRand;
+
+	double minNumber = getNumber<double>(L, 1), maxNumber = getNumber<double>(L, 2);
+	if (minNumber == maxNumber) {
+		return minNumber;
+	} else if (minNumber > maxNumber) {
+		std::swap(minNumber, maxNumber);
+	}
+	double randNumber = uniformRand(getSafeRandomGenerator(),
+			decltype(uniformRand)::param_type(minNumber, maxNumber));
+	lua_pushnumber(L, randNumber);
 	return 1;
 }
 
