@@ -1237,14 +1237,6 @@ class LuaScriptInterface
 		static int luaPartyShareExperience(lua_State* L);
 		static int luaPartySetSharedExperience(lua_State* L);
 
-		// Raid
-		static int luaRaidCreate(lua_State* L);
-		static int luaRaidDelete(lua_State* L);
-		static int luaRaidGetInterval(lua_State* L);
-		static int luaRaidGetNextExecution(lua_State* L);
-		static int luaRaidSetNextExecution(lua_State* L);
-		static int luaRaidExecute(lua_State* L);
-
 		//
 		lua_State* luaState;
 		std::string lastLuaError;

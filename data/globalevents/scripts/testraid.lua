@@ -4,13 +4,11 @@ function onTime(interval)
 	addEvent(Game.broadcastMessage, 25000, "Rats attack continues!", MESSAGE_STATUS_WARNING)
 
 	-- Area spawns - you can use a center and radius style or using fromPos/toPos style
-	local centerPos, radius = { x = 94, y = 126, z = 7 }, 5
-	for i = 1, 3 do
-		Raids.addSpawn(2000, "Rat", {
-			x = math.random(centerPos.x - radius, centerPos.x + radius),
-			y = math.random(centerPos.y - radius, centerPos.y + radius),
-			z = 7,
-		})
+	local centerPos, radius = Position(94, 126, 7), 5
+	for _ = 1, 3 do
+		local x = math.random(centerPos.x - radius, centerPos.x + radius)
+		local y = math.random(centerPos.y - radius, centerPos.y + radius)
+		addEvent(Game.createMonster, 2000, "Rat", Position(x, y, 7))
 	end
 
 	-- You can generate a random amount of creatures
@@ -21,9 +19,9 @@ function onTime(interval)
 	end
 
 	-- Single spawns
-	Raids.addSpawn(15000, "Cave Rat", { x = 93, y = 123, z = 7 })
-	Raids.addSpawn(30000, "Cave Rat", { x = 98, y = 125, z = 7 })
-	Raids.addSpawn(30000, "Cave Rat", { x = 94, y = 128, z = 7 })
+	addEvent(Game.createMonster, 15000, Position(93, 123, 7))
+	addEvent(Game.createMonster, 30000, Position(98, 125, 7))
+	addEvent(Game.createMonster, 30000, Position(94, 128, 7))
 
 	return true
 end
