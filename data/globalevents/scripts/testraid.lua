@@ -19,9 +19,9 @@ function onTime(interval)
 	end
 
 	-- Single spawns
-	addEvent(Game.createMonster, 15000, Position(93, 123, 7))
-	addEvent(Game.createMonster, 30000, Position(98, 125, 7))
-	addEvent(Game.createMonster, 30000, Position(94, 128, 7))
+	addEvent(Game.createMonster, 15000, "Cave Rat", Position(93, 123, 7))
+	addEvent(Game.createMonster, 30000, "Cave Rat", Position(98, 125, 7))
+	addEvent(Game.createMonster, 30000, "Cave Rat", Position(94, 128, 7))
 
 	return true
 end
