@@ -4,7 +4,7 @@
 	<globalevent type="record" name="PlayerRecord" script="record.lua" />
 	<globalevent name="Server Save" time="09:55:00" script="serversave.lua" />
 	<!--
-	<globalevent type="raid" name="Testraid" interval="1800" script="testraid.lua" />
+	<globalevent name="Test Raid" interval="1800" script="testraid.lua" />
 	executed once every 30 minutes (30 * 60 = 1800 seconds)
 	-->
 	<!--
