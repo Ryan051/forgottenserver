@@ -7,7 +7,7 @@ function onSay(player, words, param)
 		return false
 	end
 
-	local raid = Raid(param)
+	local raid = GlobalEvent(param)
 	if raid then
 		raid:execute()
 	else
