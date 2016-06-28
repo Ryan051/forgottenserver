@@ -1826,6 +1826,8 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Game", "createNpc", LuaScriptInterface::luaGameCreateNpc);
 	registerMethod("Game", "createTile", LuaScriptInterface::luaGameCreateTile);
 
+	registerMethod("Game", "startEvent", LuaScriptInterface::luaGameStartEvent);
+
 	// Variant
 	registerClass("Variant", "", LuaScriptInterface::luaVariantCreate);
 
@@ -2533,12 +2535,6 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Party", "isSharedExperienceEnabled", LuaScriptInterface::luaPartyIsSharedExperienceEnabled);
 	registerMethod("Party", "shareExperience", LuaScriptInterface::luaPartyShareExperience);
 	registerMethod("Party", "setSharedExperience", LuaScriptInterface::luaPartySetSharedExperience);
-
-	// GlobalEvent
-	registerClass("GlobalEvent", "", LuaScriptInterface::luaGlobalEventCreate);
-	registerMetaMethod("GlobalEvent", "__eq", LuaScriptInterface::luaUserdataCompare);
-
-	registerMethod("GlobalEvent", "execute", LuaScriptInterface::luaGlobalEventExecute);
 }
 
 #undef registerEnum
@@ -4400,6 +4396,20 @@ int LuaScriptInterface::luaGameCreateTile(lua_State* L)
 
 	pushUserdata(L, tile);
 	setMetatable(L, -1, "Tile");
+	return 1;
+}
+
+int LuaScriptInterface::luaGameStartEvent(lua_State* L)
+{
+	// Game.startEvent(eventName)
+	GlobalEventMap eventMap = g_globalEvents->getEventMap(GLOBALEVENT_TIMER);
+	auto globalEvent = eventMap.find(getString(L, 1));
+	if (globalEvent != eventMap.end()) {
+		globalEvent->second->executeEvent();
+		pushBoolean(L, true);
+	} else {
+		lua_pushnil(L);
+	}
 	return 1;
 }
 
@@ -12049,30 +12059,6 @@ int LuaScriptInterface::luaPartySetSharedExperience(lua_State* L)
 	} else {
 		lua_pushnil(L);
 	}
-	return 1;
-}
-
-// GlobalEvent
-int LuaScriptInterface::luaGlobalEventCreate(lua_State* L)
-{
-	// GlobalEvent(name)
-	// it doesn't make sense to manipulate onThink/onStartup/onShutdown/onRecord
-	GlobalEventMap eventMap = g_globalEvents->getEventMap(GLOBALEVENT_TIMER);
-	auto globalEvent = eventMap.find(getString(L, 2));
-	if (globalEvent != eventMap.end()) {
-		pushUserdata<GlobalEvent>(L, globalEvent->second);
-		setMetatable(L, -1, "GlobalEvent");
-	} else {
-		lua_pushnil(L);
-	}
-	return 1;
-}
-
-int LuaScriptInterface::luaGlobalEventExecute(lua_State* L)
-{
-	// globalEvent:execute()
-	GlobalEvent* globalEvent = getUserdata<GlobalEvent>(L, 1);
-	pushBoolean(L, globalEvent != nullptr && globalEvent->executeEvent());
 	return 1;
 }
 

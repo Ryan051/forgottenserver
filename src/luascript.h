@@ -554,6 +554,8 @@ class LuaScriptInterface
 		static int luaGameCreateNpc(lua_State* L);
 		static int luaGameCreateTile(lua_State* L);
 
+		static int luaGameStartEvent(lua_State* L);
+
 		// Variant
 		static int luaVariantCreate(lua_State* L);
 
@@ -1236,11 +1238,6 @@ class LuaScriptInterface
 		static int luaPartyIsSharedExperienceEnabled(lua_State* L);
 		static int luaPartyShareExperience(lua_State* L);
 		static int luaPartySetSharedExperience(lua_State* L);
-
-		// GlobalEvent
-		static int luaGlobalEventCreate(lua_State* L);
-
-		static int luaGlobalEventExecute(lua_State* L);
 
 		//
 		lua_State* luaState;

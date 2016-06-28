@@ -7,10 +7,8 @@ function onSay(player, words, param)
 		return false
 	end
 
-	local raid = GlobalEvent(param)
-	if raid then
-		raid:execute()
-	else
+	-- prevent forcing server save through /raid
+	if param == "Server Save" or not Game.startEvent(param) then
 		player:sendCancelMessage("There is no raid with that name.")
 	end
 	return true
