@@ -172,21 +172,21 @@ void mainLoader(int, char*[], ServiceManager* services)
 
 	std::cout << ">> Establishing database connection..." << std::flush;
 
+	if (!DatabaseManager::isDatabaseSetup()) {
+		startupErrorMessage("The database you have specified in config.lua is empty, please import the schema.sql to your database.");
+		return;
+	}
+
 	Database* db = Database::getInstance();
 	if (!db->connect()) {
 		startupErrorMessage("Failed to connect to database.");
 		return;
 	}
 
-	std::cout << " MySQL " << Database::getClientVersion() << std::endl;
+	std::cout << " SQLite " << Database::getClientVersion() << std::endl;
 
 	// run database manager
 	std::cout << ">> Running database manager" << std::endl;
-
-	if (!DatabaseManager::isDatabaseSetup()) {
-		startupErrorMessage("The database you have specified in config.lua is empty, please import the schema.sql to your database.");
-		return;
-	}
 	g_databaseTasks.start();
 
 	DatabaseManager::updateDatabase();

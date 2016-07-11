@@ -60,11 +60,7 @@ class ConfigManager
 			IP,
 			MOTD,
 			WORLD_TYPE,
-			MYSQL_HOST,
-			MYSQL_USER,
-			MYSQL_PASS,
-			MYSQL_DB,
-			MYSQL_SOCK,
+			SQLITE_DB,
 			DEFAULT_PRIORITY,
 			MAP_AUTHOR,
 
@@ -72,7 +68,6 @@ class ConfigManager
 		};
 
 		enum integer_config_t {
-			SQL_PORT,
 			MAX_PLAYERS,
 			PZ_LOCKED,
 			DEFAULT_DESPAWNRANGE,

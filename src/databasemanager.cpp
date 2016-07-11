@@ -17,6 +17,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <fstream>
 #include "otpch.h"
 
 #include "configmanager.h"
@@ -28,27 +29,13 @@ extern ConfigManager g_config;
 bool DatabaseManager::optimizeTables()
 {
 	Database* db = Database::getInstance();
-	std::ostringstream query;
 
-	query << "SELECT `TABLE_NAME` FROM `information_schema`.`TABLES` WHERE `TABLE_SCHEMA` = " << db->escapeString(g_config.getString(ConfigManager::MYSQL_DB)) << " AND `DATA_FREE` > 0";
-	DBResult_ptr result = db->storeQuery(query.str());
-	if (!result) {
-		return false;
+	std::cout << "> Optimizing database..." << std::flush;
+	if (db->executeQuery("VACUUM;")) {
+		std::cout << " [success]" << std::endl;
+	} else {
+		std::cout << " [failed]" << std::endl;
 	}
-
-	do {
-		std::string tableName = result->getString("TABLE_NAME");
-		std::cout << "> Optimizing table " << tableName << "..." << std::flush;
-
-		query.str(std::string());
-		query << "OPTIMIZE TABLE `" << tableName << '`';
-
-		if (db->executeQuery(query.str())) {
-			std::cout << " [success]" << std::endl;
-		} else {
-			std::cout << " [failed]" << std::endl;
-		}
-	} while (result->next());
 	return true;
 }
 
