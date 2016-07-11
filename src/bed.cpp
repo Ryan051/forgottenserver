@@ -113,10 +113,7 @@ bool BedItem::canUse(Player* player)
 		return false;
 	}
 
-	if (house->getHouseAccessLevel(&sleeper) > house->getHouseAccessLevel(player)) {
-		return false;
-	}
-	return true;
+	return house->getHouseAccessLevel(&sleeper) <= house->getHouseAccessLevel(player);
 }
 
 bool BedItem::trySleep(Player* player)

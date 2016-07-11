@@ -229,10 +229,7 @@ bool Npc::loadFromXml()
 
 bool Npc::canSee(const Position& pos) const
 {
-	if (pos.z != getPosition().z) {
-		return false;
-	}
-	return Creature::canSee(getPosition(), pos, 3, 3);
+	return pos.z == getPosition().z && Creature::canSee(getPosition(), pos, 3, 3);
 }
 
 std::string Npc::getDescription(int32_t) const
@@ -408,11 +405,8 @@ bool Npc::canWalkTo(const Position& fromPos, Direction dir) const
 		return false;
 	}
 
-	if (!ignoreHeight && tile->hasHeight(1)) {
-		return false;
-	}
+	return ignoreHeight || !tile->hasHeight(1);
 
-	return true;
 }
 
 bool Npc::getRandomStep(Direction& dir) const

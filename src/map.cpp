@@ -488,10 +488,7 @@ bool Map::canThrowObjectTo(const Position& fromPos, const Position& toPos, bool 
 		return false;
 	}
 
-	if (!checkLineOfSight) {
-		return true;
-	}
-	return isSightClear(fromPos, toPos, false);
+	return !checkLineOfSight || isSightClear(fromPos, toPos, false);
 }
 
 bool Map::checkSightLine(const Position& fromPos, const Position& toPos) const

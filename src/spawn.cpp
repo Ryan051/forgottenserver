@@ -160,12 +160,9 @@ void Spawns::clear()
 
 bool Spawns::isInZone(const Position& centerPos, int32_t radius, const Position& pos)
 {
-	if (radius == -1) {
-		return true;
-	}
+	return radius == -1 || ((pos.getX() >= centerPos.getX() - radius) && (pos.getX() <= centerPos.getX() + radius) &&
+						    (pos.getY() >= centerPos.getY() - radius) && (pos.getY() <= centerPos.getY() + radius));
 
-	return ((pos.getX() >= centerPos.getX() - radius) && (pos.getX() <= centerPos.getX() + radius) &&
-	        (pos.getY() >= centerPos.getY() - radius) && (pos.getY() <= centerPos.getY() + radius));
 }
 
 void Spawn::startSpawnCheck()

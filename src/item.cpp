@@ -1514,11 +1514,8 @@ bool Item::canDecay() const
 		return false;
 	}
 
-	if (hasAttribute(ITEM_ATTRIBUTE_UNIQUEID)) {
-		return false;
-	}
+	return !hasAttribute(ITEM_ATTRIBUTE_UNIQUEID);
 
-	return true;
 }
 
 uint32_t Item::getWorth() const

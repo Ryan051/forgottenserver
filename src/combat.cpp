@@ -181,11 +181,8 @@ bool Combat::isPlayerCombat(const Creature* target)
 		return true;
 	}
 
-	if (target->isSummon() && target->getMaster()->getPlayer()) {
-		return true;
-	}
+	return target->isSummon() && target->getMaster()->getPlayer();
 
-	return false;
 }
 
 ReturnValue Combat::canTargetCreature(Player* player, Creature* target)
@@ -291,11 +288,8 @@ bool Combat::isProtected(const Player* attacker, const Player* target)
 		return true;
 	}
 
-	if (attacker->getSkull() == SKULL_BLACK && attacker->getSkullClient(target) == SKULL_NONE) {
-		return true;
-	}
+	return attacker->getSkull() == SKULL_BLACK && attacker->getSkullClient(target) == SKULL_NONE;
 
-	return false;
 }
 
 ReturnValue Combat::canDoCombat(Creature* attacker, Creature* target)

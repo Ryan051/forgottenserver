@@ -1096,12 +1096,8 @@ bool InstantSpell::canThrowSpell(const Creature* creature, const Creature* targe
 {
 	const Position& fromPos = creature->getPosition();
 	const Position& toPos = target->getPosition();
-	if (fromPos.z != toPos.z ||
-	        (range == -1 && !g_game.canThrowObjectTo(fromPos, toPos, checkLineOfSight)) ||
-	        (range != -1 && !g_game.canThrowObjectTo(fromPos, toPos, checkLineOfSight, range, range))) {
-		return false;
-	}
-	return true;
+	return fromPos.z == toPos.z && (range != -1 || g_game.canThrowObjectTo(fromPos, toPos, checkLineOfSight)) &&
+			(range == -1 || g_game.canThrowObjectTo(fromPos, toPos, checkLineOfSight, range, range));
 }
 
 bool InstantSpell::castSpell(Creature* creature)
@@ -1923,13 +1919,10 @@ bool RuneSpell::castSpell(Creature* creature, Creature* target)
 
 bool RuneSpell::internalCastSpell(Creature* creature, const LuaVariant& var, bool isHotkey)
 {
-	bool result;
 	if (scripted) {
-		result = executeCastSpell(creature, var, isHotkey);
-	} else {
-		result = false;
+		return executeCastSpell(creature, var, isHotkey);
 	}
-	return result;
+	return false;
 }
 
 bool RuneSpell::executeCastSpell(Creature* creature, const LuaVariant& var, bool isHotkey)

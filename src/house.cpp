@@ -271,11 +271,8 @@ bool House::getAccessList(uint32_t listId, std::string& list) const
 	}
 
 	Door* door = getDoorByNumber(listId);
-	if (!door) {
-		return false;
-	}
+	return door && door->getAccessList(list);
 
-	return door->getAccessList(list);
 }
 
 bool House::isInvited(const Player* player)

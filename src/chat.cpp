@@ -29,10 +29,7 @@ extern Game g_game;
 
 bool PrivateChatChannel::isInvited(uint32_t guid) const
 {
-	if (guid == getOwner()) {
-		return true;
-	}
-	return invites.find(guid) != invites.end();
+	return guid == getOwner() || invites.find(guid) != invites.end();
 }
 
 bool PrivateChatChannel::removeInvite(uint32_t guid)

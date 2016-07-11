@@ -622,10 +622,7 @@ bool Monster::isTarget(const Creature* creature) const
 		return false;
 	}
 
-	if (creature->getPosition().z != getPosition().z) {
-		return false;
-	}
-	return true;
+	return creature->getPosition().z == getPosition().z;
 }
 
 bool Monster::selectTarget(Creature* creature)
@@ -1812,11 +1809,8 @@ bool Monster::isInSpawnRange(const Position& pos) const
 		return true;
 	}
 
-	if (Position::getDistanceZ(pos, masterPos) > Monster::despawnRange) {
-		return false;
-	}
+	return Position::getDistanceZ(pos, masterPos) <= Monster::despawnRange;
 
-	return true;
 }
 
 bool Monster::getCombatValues(int32_t& min, int32_t& max)

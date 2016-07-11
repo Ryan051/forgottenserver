@@ -110,7 +110,7 @@ class ServiceManager
 		bool add(uint16_t port);
 
 		bool is_running() const {
-			return acceptors.empty() == false;
+			return !acceptors.empty();
 		}
 
 	protected:

@@ -391,10 +391,7 @@ class Item : virtual public Thing
 			}
 		}
 		bool hasAttribute(itemAttrTypes type) const {
-			if (!attributes) {
-				return false;
-			}
-			return attributes->hasAttribute(type);
+			return attributes && attributes->hasAttribute(type);
 		}
 
 		void setSpecialDescription(const std::string& desc) {

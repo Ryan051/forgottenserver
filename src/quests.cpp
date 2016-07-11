@@ -72,11 +72,8 @@ bool Mission::isStarted(Player* player) const
 		return false;
 	}
 
-	if (!ignoreEndValue && value > endValue) {
-		return false;
-	}
+	return ignoreEndValue || value <= endValue;
 
-	return true;
 }
 
 bool Mission::isCompleted(Player* player) const
@@ -133,11 +130,8 @@ bool Quest::isStarted(Player* player) const
 	}
 
 	int32_t value;
-	if (!player->getStorageValue(startStorageID, value) || value < startStorageValue) {
-		return false;
-	}
+	return player->getStorageValue(startStorageID, value) && value >= startStorageValue;
 
-	return true;
 }
 
 bool Quests::reload()

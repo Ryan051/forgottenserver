@@ -275,11 +275,8 @@ bool Condition::isPersistent() const
 		return false;
 	}
 
-	if (!(id == CONDITIONID_DEFAULT || id == CONDITIONID_COMBAT)) {
-		return false;
-	}
+	return id == CONDITIONID_DEFAULT || id == CONDITIONID_COMBAT;
 
-	return true;
 }
 
 uint32_t Condition::getIcons() const
@@ -297,11 +294,8 @@ bool Condition::updateCondition(const Condition* addCondition)
 		return false;
 	}
 
-	if (addCondition->getTicks() >= 0 && getEndTime() > (OTSYS_TIME() + addCondition->getTicks())) {
-		return false;
-	}
+	return addCondition->getTicks() < 0 || getEndTime() <= (OTSYS_TIME() + addCondition->getTicks());
 
-	return true;
 }
 
 ConditionGeneric::ConditionGeneric(ConditionId_t id, ConditionType_t type, int32_t ticks, bool buff, uint32_t subId) :

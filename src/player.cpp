@@ -197,10 +197,7 @@ bool Player::setVocation(uint16_t vocId)
 
 bool Player::isPushable() const
 {
-	if (hasFlag(PlayerFlag_CannotBePushed)) {
-		return false;
-	}
-	return Creature::isPushable();
+	return !hasFlag(PlayerFlag_CannotBePushed) && Creature::isPushable();
 }
 
 std::string Player::getDescription(int32_t lookDistance) const
@@ -790,10 +787,7 @@ bool Player::getStorageValue(const uint32_t key, int32_t& value) const
 
 bool Player::canSee(const Position& pos) const
 {
-	if (!client) {
-		return false;
-	}
-	return client->canSee(pos);
+	return client && client->canSee(pos);
 }
 
 bool Player::canSeeCreature(const Creature* creature) const
@@ -806,10 +800,7 @@ bool Player::canSeeCreature(const Creature* creature) const
 		return false;
 	}
 
-	if (!creature->getPlayer() && !canSeeInvisibility() && creature->isInvisible()) {
-		return false;
-	}
-	return true;
+	return creature->getPlayer() || canSeeInvisibility() || !creature->isInvisible();
 }
 
 bool Player::canWalkthrough(const Creature* creature) const
@@ -1911,10 +1902,7 @@ bool Player::hasShield() const
 	}
 
 	item = inventory[CONST_SLOT_RIGHT];
-	if (item && item->getWeaponType() == WEAPON_SHIELD) {
-		return true;
-	}
-	return false;
+	return item && item->getWeaponType() == WEAPON_SHIELD;
 }
 
 BlockType_t Player::blockHit(Creature* attacker, CombatType_t combatType, int32_t& damage,
@@ -2698,7 +2686,7 @@ Cylinder* Player::queryDestination(int32_t& index, const Thing& thing, Item** de
 			return this;
 		}
 
-		bool autoStack = !((flags & FLAG_IGNOREAUTOSTACK) == FLAG_IGNOREAUTOSTACK);
+		bool autoStack = (flags & FLAG_IGNOREAUTOSTACK) != FLAG_IGNOREAUTOSTACK;
 		bool isStackable = item->isStackable();
 
 		std::vector<Container*> containers;
@@ -3059,7 +3047,7 @@ void Player::postAddNotification(Thing* thing, const Cylinder* oldParent, int32_
 
 		// Check if we owned the old container too, so we don't need to do anything,
 		// as the list was updated in postRemoveNotification
-		assert(i ? i->getContainer() != nullptr : true);
+		assert(i == nullptr || i->getContainer() != nullptr);
 
 		if (i) {
 			requireListUpdate = i->getContainer()->getHoldingPlayer() != this;
@@ -3113,7 +3101,7 @@ void Player::postRemoveNotification(Thing* thing, const Cylinder* newParent, int
 
 		// Check if we owned the old container too, so we don't need to do anything,
 		// as the list was updated in postRemoveNotification
-		assert(i ? i->getContainer() != nullptr : true);
+		assert(i == nullptr || i->getContainer() != nullptr);
 
 		if (i) {
 			requireListUpdate = i->getContainer()->getHoldingPlayer() != this;
@@ -3667,18 +3655,12 @@ void Player::onGainSharedExperience(uint64_t gainExp, Creature* source)
 
 bool Player::isImmune(CombatType_t type) const
 {
-	if (hasFlag(PlayerFlag_CannotBeAttacked)) {
-		return true;
-	}
-	return Creature::isImmune(type);
+	return hasFlag(PlayerFlag_CannotBeAttacked) || Creature::isImmune(type);
 }
 
 bool Player::isImmune(ConditionType_t type) const
 {
-	if (hasFlag(PlayerFlag_CannotBeAttacked)) {
-		return true;
-	}
-	return Creature::isImmune(type);
+	return hasFlag(PlayerFlag_CannotBeAttacked) || Creature::isImmune(type);
 }
 
 bool Player::isAttackable() const
@@ -4010,11 +3992,7 @@ bool Player::isInWarList(uint32_t guildId) const
 
 bool Player::isPremium() const
 {
-	if (g_config.getBoolean(ConfigManager::FREE_PREMIUM) || hasFlag(PlayerFlag_IsAlwaysPremium)) {
-		return true;
-	}
-
-	return premiumDays > 0;
+	return g_config.getBoolean(ConfigManager::FREE_PREMIUM) || hasFlag(PlayerFlag_IsAlwaysPremium) || premiumDays > 0;
 }
 
 void Player::setPremiumDays(int32_t v)
@@ -4080,26 +4058,17 @@ PartyShields_t Player::getPartyShield(const Player* player) const
 
 bool Player::isInviting(const Player* player) const
 {
-	if (!player || !party || party->getLeader() != this) {
-		return false;
-	}
-	return party->isPlayerInvited(player);
+	return player && party && party->getLeader() == this && party->isPlayerInvited(player);
 }
 
 bool Player::isPartner(const Player* player) const
 {
-	if (!player || !party) {
-		return false;
-	}
-	return party == player->party;
+	return player && party && party == player->party;
 }
 
 bool Player::isGuildMate(const Player* player) const
 {
-	if (!player || !guild) {
-		return false;
-	}
-	return guild == player->guild;
+	return player && guild && guild == player->guild;
 }
 
 void Player::sendPlayerPartyIcons(Player* player)

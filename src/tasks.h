@@ -47,10 +47,7 @@ class Task
 		}
 
 		bool hasExpired() const {
-			if (expiration == SYSTEM_TIME_ZERO) {
-				return false;
-			}
-			return expiration < std::chrono::system_clock::now();
+			return expiration != SYSTEM_TIME_ZERO && expiration < std::chrono::system_clock::now();
 		}
 
 	protected:
