@@ -44,23 +44,20 @@ bool DatabaseManager::tableExists(const std::string& tableName)
 	Database* db = Database::getInstance();
 
 	std::ostringstream query;
-	query << "SELECT `TABLE_NAME` FROM `information_schema`.`tables` WHERE `TABLE_SCHEMA` = " << db->escapeString(g_config.getString(ConfigManager::MYSQL_DB)) << " AND `TABLE_NAME` = " << db->escapeString(tableName) << " LIMIT 1";
+	query << "SELECT `name` FROM `sqlite_master` WHERE `type` = 'table' AND `name` = " << db->escapeString(tableName) << " LIMIT 1";
 	return db->storeQuery(query.str()).get() != nullptr;
 }
 
-bool DatabaseManager::isDatabaseSetup()
-{
-	Database* db = Database::getInstance();
-	std::ostringstream query;
-	query << "SELECT `TABLE_NAME` FROM `information_schema`.`tables` WHERE `TABLE_SCHEMA` = " << db->escapeString(g_config.getString(ConfigManager::MYSQL_DB));
-	return db->storeQuery(query.str()).get() != nullptr;
+bool DatabaseManager::isDatabaseSetup() {
+	std::fstream fs(g_config.getString(ConfigManager::SQLITE_DB));
+	return fs.good();
 }
 
 int32_t DatabaseManager::getDatabaseVersion()
 {
 	if (!tableExists("server_config")) {
 		Database* db = Database::getInstance();
-		db->executeQuery("CREATE TABLE `server_config` (`config` VARCHAR(50) NOT nullptr, `value` VARCHAR(256) NOT nullptr DEFAULT '', UNIQUE(`config`)) ENGINE = InnoDB");
+		db->executeQuery("CREATE TABLE `server_config` (`config` TEXT NOT NULL UNIQUE, `value` TEXT NOT NULL DEFAULT '')");
 		db->executeQuery("INSERT INTO `server_config` VALUES ('db_version', 0)");
 		return 0;
 	}
