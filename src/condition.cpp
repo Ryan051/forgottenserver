@@ -424,7 +424,7 @@ bool ConditionAttributes::startCondition(Creature* creature)
 
 void ConditionAttributes::updatePercentStats(Player* player)
 {
-	for (int32_t i = STAT_FIRST; i <= STAT_LAST; ++i) {
+	for (stats_t i = STAT_FIRST; i <= STAT_LAST; ++i) {
 		if (statsPercent[i] == 0) {
 			continue;
 		}
@@ -436,6 +436,9 @@ void ConditionAttributes::updatePercentStats(Player* player)
 
 			case STAT_MAXMANAPOINTS:
 				stats[i] = static_cast<int32_t>(player->getMaxMana() * ((statsPercent[i] - 100) / 100.f));
+				break;
+
+			case STAT_SOULPOINTS:
 				break;
 
 			case STAT_MAGICPOINTS:
