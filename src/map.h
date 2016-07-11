@@ -225,7 +225,7 @@ class Map
 		  * Remove a creature from the map.
 		  * \param c Creature pointer to the creature to remove
 		  */
-		bool removeCreature(Creature* c);
+		//bool removeCreature(Creature* c);
 
 		void getSpectators(SpectatorVec& list, const Position& centerPos, bool multifloor = false, bool onlyPlayers = false,
 		                   int32_t minRangeX = 0, int32_t maxRangeX = 0,

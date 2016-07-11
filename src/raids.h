@@ -204,7 +204,7 @@ class AreaSpawnEvent final : public RaidEvent
 	public:
 		bool configureRaidEvent(const pugi::xml_node& eventNode) final;
 
-		void addMonster(const std::string& monsterName, uint32_t minAmount, uint32_t maxAmount);
+		//void addMonster(const std::string& monsterName, uint32_t minAmount, uint32_t maxAmount);
 
 		bool executeEvent() final;
 
@@ -217,7 +217,7 @@ class ScriptEvent final : public RaidEvent, public Event
 {
 	public:
 		explicit ScriptEvent(LuaScriptInterface* interface);
-		explicit ScriptEvent(const ScriptEvent* copy);
+		//explicit ScriptEvent(const ScriptEvent* copy);
 
 		bool configureRaidEvent(const pugi::xml_node& eventNode) final;
 		bool configureEvent(const pugi::xml_node&) final {

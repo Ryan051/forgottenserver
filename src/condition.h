@@ -347,7 +347,7 @@ class ConditionOutfit final : public Condition
 	protected:
 		Outfit_t outfit;
 
-		void changeOutfit(Creature* creature);
+		//void changeOutfit(Creature* creature);
 };
 
 class ConditionLight final : public Condition

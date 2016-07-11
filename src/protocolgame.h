@@ -195,7 +195,7 @@ class ProtocolGame final : public Protocol
 		void sendCancelWalk();
 		void sendChangeSpeed(const Creature* creature, uint32_t speed);
 		void sendCancelTarget();
-		void sendCreatureVisible(const Creature* creature, bool visible);
+		//void sendCreatureVisible(const Creature* creature, bool visible);
 		void sendCreatureOutfit(const Creature* creature, const Outfit_t& outfit);
 		void sendStats();
 		void sendBasicData();
@@ -299,12 +299,12 @@ class ProtocolGame final : public Protocol
 		void MoveDownCreature(NetworkMessage& msg, const Creature* creature, const Position& newPos, const Position& oldPos);
 
 		//container
-		void AddContainerItem(NetworkMessage& msg, uint8_t cid, const Item* item);
-		void UpdateContainerItem(NetworkMessage& msg, uint8_t cid, uint16_t slot, const Item* item);
-		void RemoveContainerItem(NetworkMessage& msg, uint8_t cid, uint16_t slot);
+		//void AddContainerItem(NetworkMessage& msg, uint8_t cid, const Item* item);
+		//void UpdateContainerItem(NetworkMessage& msg, uint8_t cid, uint16_t slot, const Item* item);
+		//void RemoveContainerItem(NetworkMessage& msg, uint8_t cid, uint16_t slot);
 
 		//inventory
-		void SetInventoryItem(NetworkMessage& msg, slots_t slot, const Item* item);
+		//void SetInventoryItem(NetworkMessage& msg, slots_t slot, const Item* item);
 
 		//shop
 		void AddShopItem(NetworkMessage& msg, const ShopInfo& item);

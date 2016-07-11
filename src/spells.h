@@ -271,8 +271,8 @@ class ConjureSpell final : public InstantSpell
 		std::string getScriptEventName() const final;
 
 		bool conjureItem(Creature* creature) const;
-		bool internalCastSpell(Creature* creature, const LuaVariant& var);
-		Position getCasterPosition(Creature* creature);
+		//bool internalCastSpell(Creature* creature, const LuaVariant& var);
+		//Position getCasterPosition(Creature* creature);
 
 		uint32_t conjureId;
 		uint32_t conjureCount;
