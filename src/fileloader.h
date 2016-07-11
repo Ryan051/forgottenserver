@@ -214,7 +214,7 @@ class PropWriteStream
 	public:
 		PropWriteStream() {
 			buffer_size = 32;
-			buffer = static_cast<char*>(malloc(buffer_size));
+			buffer = static_cast<char*>(std::malloc(buffer_size));
 			if (!buffer) {
 				throw std::bad_alloc();
 			}
@@ -223,7 +223,7 @@ class PropWriteStream
 		}
 
 		~PropWriteStream() {
-			free(buffer);
+			std::free(buffer);
 		}
 
 		// non-copyable
@@ -269,7 +269,7 @@ class PropWriteStream
 				buffer_size <<= 1;
 			} while ((buffer_size - size) < length);
 
-			void* newBuffer = realloc(buffer, buffer_size);
+			void* newBuffer = std::realloc(buffer, buffer_size);
 			if (!newBuffer) {
 				throw std::bad_alloc();
 			}

@@ -331,7 +331,7 @@ int32_t normal_random(int32_t minNumber, int32_t maxNumber)
 	} else if (v > 1.0) {
 		increment = (diff + 1) / 2;
 	} else {
-		increment = round(v * diff);
+		increment = std::lround(v * diff);
 	}
 	return minNumber + increment;
 }

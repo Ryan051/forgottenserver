@@ -66,7 +66,7 @@ void badAllocationHandler()
 	// Use functions that only use stack allocation
 	puts("Allocation failed, server out of memory.\nDecrease the size of your map or compile in 64 bits mode.\n");
 	getchar();
-	exit(-1);
+	std::exit(-1);
 }
 
 int main(int argc, char* argv[])
@@ -126,7 +126,7 @@ void mainLoader(int, char*[], ServiceManager* services)
 	//dispatcher thread
 	g_game.setGameState(GAME_STATE_STARTUP);
 
-	srand(static_cast<unsigned int>(OTSYS_TIME()));
+	std::srand(static_cast<unsigned int>(OTSYS_TIME()));
 #ifdef _WIN32
 	SetConsoleTitle(STATUS_SERVER_NAME);
 #endif

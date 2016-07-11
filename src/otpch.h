@@ -25,6 +25,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cstdint>
+#include <cstdlib>
 #include <forward_list>
 #include <functional>
 #include <iomanip>
